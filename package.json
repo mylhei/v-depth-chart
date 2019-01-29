@@ -1,0 +1,66 @@
+{
+  "name": "v-depth-chart",
+  "version": "0.1.2",
+  "description": "vue 深度图组件，用于虚拟货币、股票等交易所使用",
+  "keywords": [
+    "vue",
+    "depth",
+    "depth chart",
+    "深度图"
+  ],
+  "author": {
+    "email": "mylhei@gmail.com",
+    "name": "mylhei"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https@github.com:mylhei/vue-deepth-chart.git"
+  },
+  "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --target=lib --dest=lib --name=v-deepthchart ./package/index.js",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "vue": "^2.5.21"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-plugin-eslint": "^3.3.0",
+    "@vue/cli-plugin-typescript": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "typescript": "~3.1.1",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "main": "lib/v-deepthchart.umd.js",
+  "typings": "types/index.d.ts"
+}

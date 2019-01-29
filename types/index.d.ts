@@ -1,0 +1,3 @@
+interface State {
+  valueMap: Map
+}
