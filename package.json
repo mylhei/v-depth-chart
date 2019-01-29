@@ -1,11 +1,12 @@
 {
   "name": "v-depth-chart",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "vue 深度图组件，用于虚拟货币、股票等交易所使用",
   "keywords": [
     "vue",
     "depth",
     "depth chart",
+    "orderbook",
     "深度图"
   ],
   "author": {
@@ -14,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https@github.com:mylhei/vue-depth-chart.git"
+    "url": "git+https@github.com:mylhei/v-depth-chart.git"
   },
   "private": false,
   "scripts": {
