@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VDeepthChart from '../package/index'
+import VDepthChart from '../package/index'
 
 Vue.config.productionTip = false
 
-Vue.use(VDeepthChart)
+Vue.use(VDepthChart)
 
 new Vue({
   render: h => h(App)

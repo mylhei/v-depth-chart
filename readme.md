@@ -5,16 +5,20 @@
 ![image](public/depth.png)
 # 使用方式
 ## 1. 安装
-` npm i v-deepth-chart `
+` npm i v-depth-chart `
 ## 2. 引用
 ``` javascript
-import VDeepthChart from 'v-deepth-chart'
+import VdepthChart from 'v-depth-chart'
 // 全局引用
-Vue.use(VDeepthChart)
+Vue.use(VdepthChart)
 ```
 ## 3.调用
 
 ```html
-<v-deepth-chart :data="data"></v-deepth-chart>
+<v-depth-chart :data="data"></v-depth-chart>
 ```
 
+# 开发模式
+` npm run serve `
+# 打包
+` npm run build `

@@ -76,6 +76,25 @@ export default {
     axisFontsize: {
       type: Number,
       default: 12
+    },
+    /**
+     * 锯齿
+     */
+    jagged: {
+      type: Boolean,
+      default: false
+    },
+    paddingTop: {
+      type: Number,
+      default: 10
+    },
+    tipsPrice: {
+      type: String,
+      default: '委托价'
+    },
+    tipsTotal: {
+      type: String,
+      default: '累计'
     }
   },
   watch: {
@@ -136,21 +155,55 @@ export default {
       contextX.fillStyle = '#ccc'
       let x = 0
       let y = 0
-      contextX.textAlign = 'center'
-      for (let i in data['buy']) {
-        if (i % 3) continue
-        x = width / 2 - i * scaleW - 30
+      let buyLength = data['buy'].length
+      let sellLength = data['sell'].length
+      for (let i = 0; i < buyLength + sellLength; i++) {
+        if (i % 4) continue
+        let index
+        let text
+        let x
+        let textWidth
+        if (i < buyLength) {
+          index = i
+          text = data['buy'][index]['price']
+          textWidth = contextX.measureText(text).width
+          x = width / 2 - i * scaleW - textWidth
+          // contextX.textAlign = 'left'
+        } else {
+          index = sellLength - (i - buyLength) - 1
+          text = data['sell'][index]['price']
+          textWidth = contextX.measureText(text).width
+          x = width / 2 + index * scaleW
+          // contextX.textAlign = 'right'
+        }
+
+        if (x + textWidth >= width) {
+          x = width - textWidth
+        } else if (x <= 0) {
+          x = 0
+        }
         y = this.axisFontsize || 12
-        contextX.fillText(data['buy'][i]['price'], x, y)
+        contextX.fillText(text, x, y)
       }
 
-      for (let i in data['sell']) {
-        if (i % 3) continue
-        x = width / 2 + i * scaleW + 15
-        y = this.axisFontsize || 12
-        let index = data['sell'].length - i - 1
-        contextX.fillText(data['sell'][index]['price'], x, y)
-      }
+      // let buyLength = data['buy'].length
+      // for (let i in data['buy']) {
+      //   if (i == 1 || i == buyLength - 2 || i == Math.ceil(buyLength / 2)) {
+      //     x = width / 2 - i * scaleW - 20
+      //     y = this.axisFontsize || 12
+      //     contextX.fillText(data['buy'][i]['price'], x, y)
+      //   }
+      // }
+
+      // let sellLength = data['sell'].length
+      // for (let i in data['sell']) {
+      //   if (i == 1 || i == sellLength - 2 || i == Math.ceil(sellLength / 2)) {
+      //     x = width / 2 + i * scaleW
+      //     y = this.axisFontsize || 12
+      //     let index = data['sell'].length - i - 1
+      //     contextX.fillText(data['sell'][index]['price'], x, y)
+      //   }
+      // }
     },
     _drawYLine () {
       let x = 0
@@ -179,22 +232,39 @@ export default {
         context.clearRect(0, 0, width, height)
       }
       const { maxAmount, scaleW } = args
+      const paddingTop = this.paddingTop
       let tempList = []
       const gap = this.gap
       context.beginPath()
       context.fillStyle = this.buyFillColor
       let x = 0
-      let y = 0
+      let y = paddingTop
+      let lastPoint = {
+        x,
+        y
+      }
       for (let i in data['buy']) {
         x = width / 2 - i * scaleW - gap
-        y = height - data['buy'][i]['total'] / maxAmount * height
+        y = height - data['buy'][i]['total'] / maxAmount * (height) + paddingTop
+        // 处理下边距 下边距超过最大高取最大高-paddingTop (应该是paddingBottom）
+        if (y > height - paddingTop) {
+          y = height - paddingTop
+        }
         tempList.push({
           x,
           y,
           value: data['buy'][i],
           side: 'buy'
         })
+
+        if (this.jagged) {
+          context.lineTo(x, lastPoint.y)
+        }
         context.lineTo(x, y)
+        lastPoint = {
+          x,
+          y
+        }
       }
       context.lineTo(0, y) // 延伸到最左侧边缘
       context.lineTo(0, height)
@@ -206,17 +276,33 @@ export default {
       context.beginPath()
       context.fillStyle = this.sellFillColor
       context.moveTo(width / 2 + gap, height)
+      lastPoint = {
+        x: width / 2 + gap,
+        y: height
+      }
       for (let i in data['sell']) {
         const index = data['sell'].length - i - 1
         x = width / 2 + i * scaleW + gap
-        y = height - data['sell'][index]['total'] / maxAmount * height
+        y = height - data['sell'][index]['total'] / maxAmount * height + paddingTop
+        if (y > height - paddingTop) {
+          y = height - paddingTop
+        }
         tempList.push({
           x,
           y,
-          value: data['sell'][i],
+          value: data['sell'][index],
           side: 'sell'
         })
+
+        if (this.jagged) {
+          context.lineTo(x, lastPoint.y)
+        }
         context.lineTo(x, y)
+
+        lastPoint = {
+          x,
+          y
+        }
       }
       // 按照X升序排列
       tempList = tempList.sort((a, b) => {
@@ -230,6 +316,7 @@ export default {
       context.lineTo(width + gap, height)
       context.lineTo(width / 2 + gap, height)
       context.fill()
+      // context.stroke()
       context.closePath()
     },
     _calcArgs (data, width, height) {
@@ -278,7 +365,7 @@ export default {
           maskContext.closePath()
 
           maskContext.beginPath()
-          maskContext.shadowBlur = 20
+          maskContext.shadowBlur = 10
           maskContext.shadowColor = 'rgba(0,0,0,0.8)'
           // 小圆点
           maskContext.fillStyle = 'rgba(255,255,255, 1)'
@@ -311,13 +398,15 @@ export default {
 
           maskContext.fillStyle = side === 'buy' ? buyFillColor : sellFillColor
           maskContext.textAlign = 'left'
+          // maskContext.textBaseline = 'middle'
           maskContext.shadowBlur = 0
-          maskContext.font = '12px Arial'
+          maskContext.font = '12px bold'
+
           const marginLeft = 10
           const marginTop = 25
           const lineHeight = 20
-          maskContext.fillText(`委托价：${utils.toThousand(obj.price)}`, left + marginLeft, top + marginTop)
-          maskContext.fillText(`累计：${utils.toThousand(obj.total)}`, left + marginLeft, top + marginTop + lineHeight)
+          maskContext.fillText(`${this.tipsPrice} ${utils.toThousand(obj.price)}`, left + marginLeft, top + marginTop)
+          maskContext.fillText(`${this.tipsTotal} ${utils.toThousand(obj.total)}`, left + marginLeft, top + marginTop + lineHeight)
           maskContext.closePath()
           break
         }

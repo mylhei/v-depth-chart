@@ -1,6 +1,6 @@
 
 // import { defaultOptions } from './deepth-chart/config'
-import vDeepthChart from './deepth-chart/v-deepth-chart'
+import vDeepthChart from './depth-chart/v-depth-chart'
 
 export function install (Vue, options = {}) {
   if (install.installed) return
@@ -10,7 +10,7 @@ export function install (Vue, options = {}) {
 
   // plugin.options = finalOptions
 
-  Vue.component('v-deepth-chart', vDeepthChart)
+  Vue.component('v-depth-chart', vDeepthChart)
 }
 
 const plugin = {

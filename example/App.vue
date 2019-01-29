@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-deepth-chart :data="data"></v-deepth-chart>
+    <v-depth-chart :data="data"></v-depth-chart>
   </div>
 </template>
 
@@ -16,14 +16,21 @@ const data = {
     { 'price': 8999.04, 'amount': 8480 },
     { 'price': 8998.88, 'amount': 12751 },
     { 'price': 8998.72, 'amount': 14187 },
-    { 'price': 8998.56, 'amount': 7916 }
+    { 'price': 8998.56, 'amount': 7916 },
+    { 'price': 8998.32, 'amount': 14187 },
+    { 'price': 8998.22, 'amount': 14187 },
+    { 'price': 8998.12, 'amount': 1 },
+    { 'price': 8998.02, 'amount': 4 },
+    { 'price': 8997.72, 'amount': 3 },
+    { 'price': 8997.42, 'amount': 2 },
+    { 'price': 8997.22, 'amount': 1 }
   ],
   'buy': [
-    { 'price': 8749, 'amount': 8379 },
-    { 'price': 8748.74, 'amount': 18582 },
-    { 'price': 8748.48, 'amount': 9173 },
-    { 'price': 8748.22, 'amount': 13327 },
-    { 'price': 8747.96, 'amount': 1990 },
+    { 'price': 8999, 'amount': 1 },
+    { 'price': 8748.74, 'amount': 2 },
+    { 'price': 8748.48, 'amount': 3 },
+    { 'price': 8748.22, 'amount': 4 },
+    { 'price': 8747.96, 'amount': 1 },
     { 'price': 8747.7, 'amount': 3414 },
     { 'price': 8747.44, 'amount': 12062 },
     { 'price': 8747.18, 'amount': 19389 },
