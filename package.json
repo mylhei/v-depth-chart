@@ -1,6 +1,6 @@
 {
   "name": "v-depth-chart",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "vue 深度图组件，用于虚拟货币、股票等交易所使用",
   "keywords": [
     "vue",
