@@ -14,7 +14,8 @@ export function install (Vue, options = {}) {
 }
 
 const plugin = {
-  install
+  install,
+  vDeepthChart
 }
 
 let GlobalVue = null

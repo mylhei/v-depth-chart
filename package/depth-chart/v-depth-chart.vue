@@ -136,8 +136,6 @@ export default {
         const context = this.context
         const width = parseFloat(this.fWidth)
         const height = parseFloat(this.fHeight)
-        // const fWidth = width + 48
-        // const fHeight = height + 24
         this._drawMainCanvas(context, data, width, height, this.args)
         this._drawXLine(data)
         this._drawYLine(data)
@@ -161,7 +159,6 @@ export default {
         if (i % 4) continue
         let index
         let text
-        let x
         let textWidth
         if (i < buyLength) {
           index = i
@@ -376,10 +373,17 @@ export default {
           maskContext.beginPath()
           // tips框
           maskContext.fillStyle = 'rgba(255,255,255, 1)'
+          maskContext.font = '12px bold'
           let widthOffset = 120
           let heightOffset = 60
           let left = x - widthOffset / 2
           let top = y - heightOffset - 10
+          let tipsPriceText = `${this.tipsPrice} ${utils.toThousand(obj.price)}`
+          let tipsAmountText = `${this.tipsTotal} ${utils.toThousand(obj.total)}`
+          let maxTextWidth = Math.max(maskContext.measureText(tipsPriceText).width, maskContext.measureText(tipsAmountText).width)
+          if (maxTextWidth + 20 > widthOffset) {
+            widthOffset = maxTextWidth + 20
+          }
           if (side === 'sell') {
             // widthOffset = -widthOffset
             // heightOffset = -heightOffset
@@ -400,13 +404,12 @@ export default {
           maskContext.textAlign = 'left'
           // maskContext.textBaseline = 'middle'
           maskContext.shadowBlur = 0
-          maskContext.font = '12px bold'
 
           const marginLeft = 10
           const marginTop = 25
           const lineHeight = 20
-          maskContext.fillText(`${this.tipsPrice} ${utils.toThousand(obj.price)}`, left + marginLeft, top + marginTop)
-          maskContext.fillText(`${this.tipsTotal} ${utils.toThousand(obj.total)}`, left + marginLeft, top + marginTop + lineHeight)
+          maskContext.fillText(tipsPriceText, left + marginLeft, top + marginTop)
+          maskContext.fillText(tipsAmountText, left + marginLeft, top + marginTop + lineHeight)
           maskContext.closePath()
           break
         }
